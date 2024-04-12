@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping</title>
+</head>
+<body style="margin: 0px; padding: 20px; box-sizing: border-box; font-family: poppins, sans-serif; font-size: 18px; background-color: rgb(245, 245, 245); display: flex; flex-direction: row; justify-content: space-between;">
+    <h1 style="font-size:80px;"><u>:: PUMA Shopping center ::</u></h1>
+    
+    <script>
+        
+        
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.boxSizing = 'border-box';
+        document.body.style.fontFamily = "'poppins', sans-serif";
+        document.body.style.fontSize = '18px';
+        document.body.style.backgroundColor = '#f5f5f5';
+        document.body.style.padding = '20px';
+        document.body.style.display = 'flex';
+        document.body.style.flexDirection = 'row';
+        document.body.style.justifyContent = 'space-between';
+        
+        const product = [
+            {
+                id: 0,
+                image: './Puma Women.jpg',
+                title: 'Puma Women Running Shoes',
+                price: 150,
+            },
+{
+                id: 1,
+                image: './pumashirt-white.jpeg',
+                title: 'Tazon6FM Mens Running Shoes',
+                price: 230,
+            },
+            {
+                id: 2,
+                image: './pumashirt-rosa.jpg',
+                title: 'Puma Rosa shirt',
+                price: 80,
+            },
+            
+            {
+                id: 3,
+                image: './Tazon6FM.jpg',
+                title: 'Puma Men Shoes-Tazon6FM',
+                price: 5000,
+            }
+        ];
+
+        function createProductElement(item, index) {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('box');
+            productDiv.style.backgroundColor = '#ffffff';
+            productDiv.style.border = '1px solid lightblue';
+            productDiv.style.borderRadius = '8px';
+            productDiv.style.width = '100%';
+            productDiv.style.transition = 'transform 0.3s ease-in-out';
+            productDiv.style.marginBottom = '20px';
+
+            const imgBox = document.createElement('div');
+            imgBox.classList.add('img-box');
+
+            const img = document.createElement('img');
+            img.classList.add('images');
+            img.src = item.image;
+            img.style.width = '100%'; // Ensure image fills its container
+            img.style.borderTopLeftRadius = '8px';
+            img.style.borderTopRightRadius = '8px';
+
+            imgBox.appendChild(img);
+
+            const bottomDiv = document.createElement('div');
+            bottomDiv.classList.add('bottom');
+            bottomDiv.style.padding = '10px';
+
+            const titlePara = document.createElement('p');
+            titlePara.textContent = item.title;
+
+            const priceHeading = document.createElement('h2');
+            priceHeading.textContent = '$ ${item.price}.00';
+            priceHeading.style.color = 'red';
+            priceHeading.style.fontSize = '20px';
+            priceHeading.style.marginBottom = '5px';
+
+            bottomDiv.appendChild(titlePara);
+            bottomDiv.appendChild(priceHeading);
+
+            const addButton = document.createElement('button');
+            addButton.textContent = 'Add to Cart';
+            addButton.addEventListener('click', () => addtocart(index));
+            addButton.style.width = 'calc(100% - 20px)';
+            addButton.style.border = 'none';
+            addButton.style.borderRadius = '5px';
+            addButton.style.backgroundColor = 'lightblue';
+            addButton.style.padding = '10px 0';
+            addButton.style.cursor = 'pointer';
+            addButton.style.color = '#ffffff';
+            addButton.style.fontSize = '16px';
+            addButton.style.transition = 'background-color 0.3s ease-in-out';
+
+            addButton.addEventListener('mouseenter', () => {
+                addButton.style.backgroundColor = '#333';
+            });
+
+            addButton.addEventListener('mouseleave', () => {
+                addButton.style.backgroundColor = 'lightblue';
+            });
+
+            bottomDiv.appendChild(addButton);
+
+            productDiv.appendChild(imgBox);
+            productDiv.appendChild(bottomDiv);
+
+            return productDiv;
+        }
+
+        // Append product elements to container
+        const container = document.createElement('div');
+        container.classList.add('container');
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        container.style.gridGap = '20px';
+        container.style.justifyContent = 'flex-start';
+        container.style.margin = '20px auto';
+        container.style.padding = '20px';
+        container.style.backgroundColor = '#f5f5f5';
+
+        product.forEach((item, index) => {
+            const productElement = createProductElement(item, index);
+            container.appendChild(productElement);
+        });
+
+        document.body.appendChild(container);
+
+        // Create sidebar
+        const sidebar = document.createElement('div');
+        sidebar.classList.add('sidebar');
+        sidebar.style.backgroundColor = '#eee';
+        sidebar.style.borderRadius = '5px';
+        sidebar.style.padding = '15px';
+        sidebar.style.textAlign = 'center';
+        sidebar.style.width = '65%'; 
+        sidebar.style.marginLeft = '20px';
+        sidebar.style.alignSelf = 'flex-start'; 
+
+        const logo = document.createElement('h1');
+        logo.classList.add('logo');
+        logo.textContent = 'Welcome to PUMA Shopping Center for the ultimate experience!';
+        sidebar.appendChild(logo);
+
+        const cartHead = document.createElement('div');
+        cartHead.classList.add('head');
+        cartHead.textContent = 'My Cart';
+        cartHead.style.backgroundColor = 'lightpink';
+        cartHead.style.color = 'white';
+        cartHead.style.borderRadius = '3px';
+        cartHead.style.padding = '10px';
+        cartHead.style.textAlign = 'center';
+        cartHead.style.marginBottom = '20px';
+        sidebar.appendChild(cartHead);
+
+        const cartItems = document.createElement('div');
+        cartItems.classList.add('cartItems');
+        cartItems.textContent = 'Your cart is empty';
+        sidebar.appendChild(cartItems);
+
+        const totalLabel = document.createElement('div');
+        totalLabel.textContent = 'Total:';
+        totalLabel.style.marginBottom = '10px';
+        sidebar.appendChild(totalLabel);
+
+        const totalPrice = document.createElement('div');
+        totalPrice.classList.add('totalPrice');
+        totalPrice.textContent = '$ 0.00';
+        sidebar.appendChild(totalPrice);
+
+        document.body.appendChild(sidebar);
+
+        var cart = [];
+
+        function addtocart(index) {
+            cart.push(product[index]);
+            displaycart();
+        }
+
+        function delElement(index) {
+            cart.splice(index, 1);
+            displaycart();
+        }
+
+        function displaycart() {
+            let total = 0;
+            const cartElement = document.querySelector(".sidebar .cartItems");
+
+            cartElement.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                total += item.price;
+
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+
+                const img = document.createElement('img');
+                img.src = item.image;
+                img.alt = 'product-image';
+                img.style.width = '40px';
+                img.style.height = '40px';
+                img.style.borderRadius = '50%';
+                img.style.objectFit = 'cover';
+                cartItemDiv.appendChild(img);
+
+                const titlePara = document.createElement('p');
+                titlePara.textContent = item.title;
+                cartItemDiv.appendChild(titlePara);
+
+                const priceHeading = document.createElement('h2');
+                priceHeading.textContent = '$ ${item.price}.00';
+                cartItemDiv.appendChild(priceHeading);
+
+                const deleteIcon = document.createElement('i');
+                deleteIcon.classList.add('fa-trash');
+                deleteIcon.textContent = '🗑';
+                deleteIcon.addEventListener('click', () => delElement(index));
+                cartItemDiv.appendChild(deleteIcon);
+
+                cartElement.appendChild(cartItemDiv);
+            });
+
+            const totalElement = document.querySelector(".sidebar .totalPrice");
+            totalElement.textContent = '$ ${total.toFixed(2)}';
+        }
+
+    </script><div class="container" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; justify-content: flex-start; margin: 20px auto; padding: 20px; background-color: rgb(245, 245, 245);"><div class="box" style="background-color: rgb(255, 255, 255); border: 1px solid lightblue; border-radius: 8px; width: 100%; transition: transform 0.3s ease-in-out 0s; margin-bottom: 20px;"><div class="img-box"><img class="images" src="./Shopping_files/Puma Women.jpg" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px;"></div><div class="bottom" style="padding: 10px;"><p>Puma Women Running Shoes</p><h2 style="color: red; font-size: 20px; margin-bottom: 5px;">$ ${item.price}.00</h2><button style="width: calc(100% - 20px); border: none; border-radius: 5px; background-color: lightblue; padding: 10px 0px; cursor: pointer; color: rgb(255, 255, 255); font-size: 16px; transition: background-color 0.3s ease-in-out 0s;">Add to Cart</button></div></div><div class="box" style="background-color: rgb(255, 255, 255); border: 1px solid lightblue; border-radius: 8px; width: 100%; transition: transform 0.3s ease-in-out 0s; margin-bottom: 20px;"><div class="img-box"><img class="images" src="./Shopping_files/pumashirt-white.jpeg" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px;"></div><div class="bottom" style="padding: 10px;"><p>Tazon6FM Mens Running Shoes</p><h2 style="color: red; font-size: 20px; margin-bottom: 5px;">$ ${item.price}.00</h2><button style="width: calc(100% - 20px); border: none; border-radius: 5px; background-color: lightblue; padding: 10px 0px; cursor: pointer; color: rgb(255, 255, 255); font-size: 16px; transition: background-color 0.3s ease-in-out 0s;">Add to Cart</button></div></div><div class="box" style="background-color: rgb(255, 255, 255); border: 1px solid lightblue; border-radius: 8px; width: 100%; transition: transform 0.3s ease-in-out 0s; margin-bottom: 20px;"><div class="img-box"><img class="images" src="./Shopping_files/pumashirt-rosa.jpg" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px;"></div><div class="bottom" style="padding: 10px;"><p>Puma Rosa shirt</p><h2 style="color: red; font-size: 20px; margin-bottom: 5px;">$ ${item.price}.00</h2><button style="width: calc(100% - 20px); border: none; border-radius: 5px; background-color: lightblue; padding: 10px 0px; cursor: pointer; color: rgb(255, 255, 255); font-size: 16px; transition: background-color 0.3s ease-in-out 0s;">Add to Cart</button></div></div><div class="box" style="background-color: rgb(255, 255, 255); border: 1px solid lightblue; border-radius: 8px; width: 100%; transition: transform 0.3s ease-in-out 0s; margin-bottom: 20px;"><div class="img-box"><img class="images" src="./Shopping_files/Tazon6FM.jpg" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px;"></div><div class="bottom" style="padding: 10px;"><p>Puma Men Shoes-Tazon6FM</p><h2 style="color: red; font-size: 20px; margin-bottom: 5px;">$ ${item.price}.00</h2><button style="width: calc(100% - 20px); border: none; border-radius: 5px; background-color: lightblue; padding: 10px 0px; cursor: pointer; color: rgb(255, 255, 255); font-size: 16px; transition: background-color 0.3s ease-in-out 0s;">Add to Cart</button></div></div></div><div class="sidebar" style="background-color: rgb(238, 238, 238); border-radius: 5px; padding: 15px; text-align: center; width: 65%; margin-left: 20px; align-self: flex-start;"><h1 class="logo">Welcome to PUMA Shopping Center for the ultimate experience!</h1><div class="head" style="background-color: lightpink; color: white; border-radius: 3px; padding: 10px; text-align: center; margin-bottom: 20px;">My Cart</div><div class="cartItems">Your cart is empty</div><div style="margin-bottom: 10px;">Total:</div><div class="totalPrice">$ 0.00</div></div>
+
+</body></html>
